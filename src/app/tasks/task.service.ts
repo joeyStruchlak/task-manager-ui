@@ -5,7 +5,7 @@ import { environment } from '../../environments/environment';
 import { Task, CreateTaskRequest } from './task.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class TaskService {
   private readonly http = inject(HttpClient);
@@ -17,5 +17,9 @@ export class TaskService {
 
   create(request: CreateTaskRequest): Observable<number> {
     return this.http.post<number>(this.apiUrl, request);
+  }
+
+  complete(id: number): Observable<boolean> {
+    return this.http.patch<boolean>(`${this.apiUrl}/${id}/complete`, {});
   }
 }

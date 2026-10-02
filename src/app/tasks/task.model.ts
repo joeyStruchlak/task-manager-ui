@@ -5,11 +5,17 @@ export interface Task {
   description: string;
   isCompleted: boolean;
   createdAt: string;
-  completedAt: string | null;  // null if task is still open
+  completedAt: string | null;
+  priority: 'Low' | 'Medium' | 'High' | 'Critical';
+  assignedTo: string | null;
+  dueDate: string | null;
 }
 
 // Mirrors CreateTaskCommand — what we POST to /api/tasks
 export interface CreateTaskRequest {
   title: string;
   description: string;
+  priority: 'Low' | 'Medium' | 'High' | 'Critical';
+  assignedTo: string | null;
+  dueDate: string | null;
 }

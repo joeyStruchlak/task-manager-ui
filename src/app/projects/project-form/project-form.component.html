@@ -1,0 +1,38 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <div>
+    <label for="name">Project Name</label>
+    <input
+      id="name"
+      formControlName="name"
+      type="text"
+      placeholder="Enter project name"
+    />
+    @if (form.controls.name.invalid && form.controls.name.touched) {
+      @if (form.controls.name.hasError('required')) {
+        <span>Project name is required.</span>
+      }
+      @if (form.controls.name.hasError('maxlength')) {
+        <span>Project name cannot exceed 200 characters.</span>
+      }
+    }
+  </div>
+
+  <div>
+    <label for="description">Description</label>
+    <textarea
+      id="description"
+      formControlName="description"
+      placeholder="Enter description (optional)"
+    ></textarea>
+  </div>
+
+  @if (errorMessage()) {
+    <div>{{ errorMessage() }}</div>
+  }
+
+  <button type="submit" [disabled]="isLoading() || form.invalid">
+    {{ isLoading() ? 'Saving...' : 'Create Project' }}
+  </button>
+
+</form>
