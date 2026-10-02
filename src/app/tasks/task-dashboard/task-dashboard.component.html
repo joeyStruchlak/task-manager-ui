@@ -1,0 +1,54 @@
+<div>
+
+  <!-- Notification toast -->
+  @if (notificationService.notification()) {
+    <div [class]="notificationService.notification()!.type">
+      {{ notificationService.notification()!.message }}
+    </div>
+  }
+
+  <!-- Summary -->
+  <h2>Task Dashboard</h2>
+  <p>{{ completedCount() }} of {{ totalCount() }} tasks completed</p>
+
+  <!-- Filter buttons -->
+  <div>
+    <button (click)="setFilter('all')"       [class.active]="filter() === 'all'">All</button>
+    <button (click)="setFilter('active')"    [class.active]="filter() === 'active'">Active</button>
+    <button (click)="setFilter('completed')" [class.active]="filter() === 'completed'">Completed</button>
+  </div>
+
+  <!-- Task list -->
+  @for (task of filteredTasks(); track task.id) {
+    <div>
+      <div>
+        <span>{{ task.priority }}</span>
+        <h3>{{ task.title }}</h3>
+        <p>{{ task.description }}</p>
+      </div>
+
+      <div>
+        @if (task.assignedTo) {
+          <p>Assigned: {{ task.assignedTo }}</p>
+        }
+        @if (task.dueDate) {
+          <p>Due: {{ task.dueDate | date:'dd MMM yyyy':userTimezone }}</p>
+        }
+        <p>Created: {{ task.createdAt | date:'dd MMM yyyy, h:mm a':userTimezone }}</p>
+      </div>
+
+      @if (!task.isCompleted) {
+        <button
+          (click)="markComplete(task.id)"
+          [disabled]="isCompleting() === task.id">
+          {{ isCompleting() === task.id ? 'Completing...' : 'Mark Complete' }}
+        </button>
+      } @else {
+        <span>✓ Completed {{ task.completedAt | date:'dd MMM yyyy':userTimezone }}</span>
+      }
+    </div>
+  } @empty {
+    <p>No tasks found.</p>
+  }
+
+</div>
