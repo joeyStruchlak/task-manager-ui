@@ -19,7 +19,16 @@ export const routes: Routes = [
   {
     path: 'tasks',
     loadComponent: () =>
-      import('./tasks/task-dashboard/task-dashboard.component').then((m) => m.TaskDashboardComponent,
+      import('./tasks/task-dashboard/task-dashboard.component').then(
+        (m) => m.TaskDashboardComponent,
+      ),
+  },
+  {
+    path: 'timesheets',
+    // lazy load
+    loadComponent: () =>
+      import('./timesheets/timesheet-submit/timesheet-submit.component').then(
+        (m) => m.TimesheetSubmitComponent,
       ),
   },
 ];
